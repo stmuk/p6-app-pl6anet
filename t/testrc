@@ -1,0 +1,7 @@
+feed:
+  file: rss.xml
+  format: RSS
+feeds:
+ -  url: http://stevemynott.blogspot.com/feeds/posts/default
+    title: Steve Mynott
+    web: http://stevemynott.blogspot.com/feeds/posts/default
