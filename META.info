@@ -1,0 +1,11 @@
+{
+    "name"        : "App::pl6anet",
+    "version"     : "0.1",
+    "description" : "A simple perl6 RSS/Atom feed aggregator. ",
+    "depends"     : [],
+    "provides"    : {
+            "App:pl6anet": "lib/App/pl6anet"
+    },
+    "source-url"  : "git://github.com/stmuk/p6-app-pl6anet.git",
+    "author"      : "Steve Mynott <steve.mynott@gmail.com>"
+}
