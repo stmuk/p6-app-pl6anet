@@ -2,8 +2,8 @@ use v6;
 
 role App::Pl6anet::YAML {
 
-    subset File of Str where -> $x { so $x && $x.IO.e };
-    has File  $.file;
+    #subset File of Str where -> $x { so $x && $x.IO.e };
+    has Str  $.file;
 
     method parse {
 

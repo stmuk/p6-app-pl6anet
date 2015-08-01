@@ -2,7 +2,7 @@
     "name"        : "App::pl6anet",
     "version"     : "0.1",
     "description" : "A simple perl6 RSS/Atom feed aggregator. ",
-    "depends"     : [],
+    "depends"     : ['XML','Net::Curl','Template::Mojo'],
     "provides"    : {
             "App:pl6anet": "lib/App/pl6anet"
     },

@@ -2,10 +2,10 @@
 
 use v6;
 use XML;
-use XML::Parser::Tiny;
-use LWP::Simple;
 use Data::Dump;
 use Net::Curl::Easy;
+use App::Pl6anet::YAML;
+use App::Pl6anet::HTML;
 
 constant DEBUG = %*ENV<DEBUG>;
 
@@ -15,7 +15,11 @@ die "supply filename" unless $f;
 
 my $cache-f = "cache.pl6"; 
 
-my %feeds = parse-yaml($f);
+#my %feeds = parse-yaml($f);
+
+my $yaml = App::Pl6anet::YAML.new( :file('t/testrc') );
+
+my %feeds =  $yaml.parse;
 
 if DEBUG {
     make-cache(%feeds, $cache-f);
@@ -26,18 +30,9 @@ else {
 
 my %cache = EVALFILE $cache-f;
 
-say '<html>';
-say '<head>';
-say '<meta charset="utf-8">';
-say '</head>';
-say '<body>';
-for %cache.keys -> $k {
-    #warn Dump %cache{$k};
-    say '<a href="'~ $k ~'">'~%cache{$k}<title>~'</a>';
-    say %cache{$k}<content>; 
-}
-say '</body>';
-say '</html>';
+my $html = App::Pl6anet::HTML.new( :tmpl('t/index.tmpl'), :data(%cache) );
+
+say $html.render;
 
 sub make-cache(%feeds,$f) {
 
@@ -45,18 +40,9 @@ sub make-cache(%feeds,$f) {
         DEBUG and warn :$url.perl;
         my $resp = Net::Curl::Easy.new(:url($url)).download;
         %feeds{$url}<content> = process-xml( $resp );
-        #        DEBUG and last; # XXX
     }
 
     spurt($f, %feeds.perl);
-}
-
-sub get-urls($f) {
-    my $xml = slurp 'opml.xml';
-    my $parser = XML::Parser::Tiny.new;
-    my $tree = $parser.parse($xml);
-    my @leafs = $tree<body><data>.values.[1].values.[2].values;
-    return @leafs;
 }
 
 sub process-xml($data) {
@@ -91,22 +77,6 @@ sub unescape($body is copy) {
     $body.=subst(/'&quot;'/, '"', :g);
     $body.=subst(/'&amp;'/, '&', :g);
     return $body;
-}
-
-sub parse-yaml ($f) {
-    my $lines = slurp $f or die $!;
-    $lines ~~ s:g/\n//;
-
-    my (Any, @lines) = $lines.split("feeds:");
-    my (Any, @feeds) = @lines.join.split(" - ");
-
-    my %feed;
-    for @feeds -> $feed {
-        $feed ~~ / 'url:' \s*(.*?)\s* 'title:' \s* (.*?) \s* 'web:' \s* (.*) \s* /;
-        %feed{~$0} = { :title( ~$1), :web( ~$2 ) } ;
-    }
-
-    return %feed;
 }
 
 # vim: expandtab shiftwidth=4 ft=perl6
