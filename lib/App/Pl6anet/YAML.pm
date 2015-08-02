@@ -5,7 +5,7 @@ role App::Pl6anet::YAML {
     #subset File of Str where -> $x { so $x && $x.IO.e };
     has Str  $.file;
 
-    method parse {
+    method parse-yaml {
 
         my $lines = slurp $.file or die $!;
         $lines ~~ s:g/\n//;

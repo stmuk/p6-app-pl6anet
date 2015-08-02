@@ -11,7 +11,7 @@ my $yaml = App::Pl6anet::YAML.new( :file('t/testrc') );
 
 ok $yaml.so, "got summat";
 
-my $got =  $yaml.parse;
+my $got =  $yaml.parse-yaml;
 
 my $expected = {"http://stevemynott.blogspot.com/feeds/posts/default" => {:title("Steve Mynott"), :web("http://stevemynott.blogspot.com/feeds/posts/default")}};
 

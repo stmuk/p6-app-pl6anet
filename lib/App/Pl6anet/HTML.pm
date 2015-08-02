@@ -7,7 +7,7 @@ role App::Pl6anet::HTML {
     has Str  $.tmpl;
     has Hash  %.data;
 
-    method render {
+    method render-html {
         my $f = slurp $.tmpl;
         my $t = Template::Mojo.new($f);
         my $html =  $t.render( %.data );

@@ -6,11 +6,11 @@ constant DEBUG = %*ENV<DEBUG>;
 
 role App::Pl6anet::Cache {
 
-    has Hash %.data;
-    has Str $.file;
+    has Hash %.cdata;
+    has Str $.cfile;
 
     method make-cache {
-        my %data = %.data;
+        my %data = %.cdata;
 
         for %data.keys -> $url {
             DEBUG and warn :$url.perl;
@@ -18,7 +18,7 @@ role App::Pl6anet::Cache {
             %data{$url}<content> = process-xml( $resp );
         }
 
-        spurt($.file, %data.perl);
+        spurt($.cfile, %data.perl);
         return %data;
     }
 

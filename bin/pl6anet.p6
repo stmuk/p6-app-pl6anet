@@ -18,7 +18,7 @@ my $file = "cache.pl6";
 
 my $yaml = App::Pl6anet::YAML.new( :file('t/perlanetrc') );
 
-my %feeds =  $yaml.parse;
+my %feeds =  $yaml.parse-yaml;
 
 my $cache = App::Pl6anet::Cache.new( :data(%feeds), :$file );
 
@@ -33,6 +33,6 @@ my %cache = EVALFILE $file;
 
 my $html = App::Pl6anet::HTML.new( :tmpl('t/index.tmpl'), :data(%cache) );
 
-say $html.render;
+say $html.render-html;
 
 # vim: expandtab shiftwidth=4 ft=perl6

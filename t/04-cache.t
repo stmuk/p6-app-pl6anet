@@ -7,15 +7,15 @@ BEGIN { @*INC.unshift( 'lib' ) }
 
 use App::Pl6anet::Cache;
 
-my $data = {"http://stevemynott.blogspot.com/feeds/posts/default" => {:title("Steve Mynott"), :web("http://stevemynott.blogspot.com/feeds/posts/default"), :content("Now is the time for all good men")}};
-my $file ="t/cache.tmp";
+my $cdata = {"http://stevemynott.blogspot.com/feeds/posts/default" => {:title("Steve Mynott"), :web("http://stevemynott.blogspot.com/feeds/posts/default"), :content("Now is the time for all good men")}};
+my $cfile ="t/cache.tmp";
 
-my $cache = App::Pl6anet::Cache.new( :$data, :$file );
+my $cache = App::Pl6anet::Cache.new( :$cdata, :$cfile );
 
 ok $cache.so, "got summat";
 
 $cache.make-cache;
 
-my $got = EVALFILE $file;
+my $got = EVALFILE $cfile;
 
-is-deeply $got, $data, "got result" or die $got.gist;
+is-deeply $got, $cdata, "got result" or die $got.gist;
