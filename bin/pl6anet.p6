@@ -17,7 +17,7 @@ my $cache-f = "cache.pl6";
 
 #my %feeds = parse-yaml($f);
 
-my $yaml = App::Pl6anet::YAML.new( :file('t/testrc') );
+my $yaml = App::Pl6anet::YAML.new( :file('t/perlanetrc') );
 
 my %feeds =  $yaml.parse;
 
