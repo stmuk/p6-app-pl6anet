@@ -19,6 +19,7 @@ role App::Pl6anet::Cache {
         }
 
         spurt($.file, %data.perl);
+        return %data;
     }
 
     sub process-xml($data) {
