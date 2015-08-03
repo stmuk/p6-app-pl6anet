@@ -5,12 +5,12 @@ role App::Pl6anet::HTML {
 
     #    subset File of Str where -> $x { so $x && $x.IO.e };
     has Str  $.tmpl;
-    has Hash  %.data;
+    #    has Hash  %.data;
 
-    method render-html {
+    method render-html(%data) {
         my $f = slurp $.tmpl;
         my $t = Template::Mojo.new($f);
-        my $html =  $t.render( %.data );
+        my $html =  $t.render( %data );
         return $html;
     }
 

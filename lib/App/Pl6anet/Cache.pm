@@ -6,11 +6,11 @@ constant DEBUG = %*ENV<DEBUG>;
 
 role App::Pl6anet::Cache {
 
-    has Hash %.cdata;
     has Str $.cfile;
 
-    method make-cache {
-        my %data = %.cdata;
+    method cached(%data) {
+
+        return EVALFILE $.cfile if $.cfile.IO.e; # cache hit
 
         for %data.keys -> $url {
             DEBUG and warn :$url.perl;
