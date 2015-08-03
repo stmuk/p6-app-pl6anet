@@ -2,9 +2,6 @@
 
 use v6;
 use App::Pl6anet;
-use Data::Dump;
-
-constant DEBUG = %*ENV<DEBUG>;
 
 my $cfile = "cache.pl6"; 
 
