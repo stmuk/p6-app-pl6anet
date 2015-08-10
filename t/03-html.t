@@ -15,6 +15,6 @@ ok $html.so, "got summat";
 
 my $got =  $html.render-html($data);
 
-my $expected = "<html>\n<head>\n<meta charset=\"utf-8\">\n</head>\n<body>\n<a href=\"http://stevemynott.blogspot.com/feeds/posts/default\">Steve Mynott</a> \nNow is the time for all good men\n</body>\n</html>\n";
+my $expected = "<?xml version=\"1.0\"?><html> <head> <meta charset=\"utf-8\"/>  </head>  <body> <a href=\"http://stevemynott.blogspot.com/feeds/posts/default\">Steve Mynott</a>  Now is the time for all good men </body>  </html>";
 
 is-deeply $got, $expected, "got result" or die $got.gist;
