@@ -11,9 +11,9 @@ role App::Pl6anet::HTML {
         my $f = slurp $.tmpl;
         my $t = Template::Mojo.new($f);
         my $html =  $t.render( %data );
-        my $hr = HTML::Restrict.new;
-        my XML::Document $doc = $hr.process(:$html);
-        $html = $doc.gist;
+        #my $hr = HTML::Restrict.new;
+        #my XML::Document $doc = $hr.process(:$html);
+        #$html = $doc.gist;
         return $html;
     }
 

@@ -15,9 +15,8 @@ role App::Pl6anet::Cache {
         for %data.keys -> $url {
             DEBUG and warn :$url.perl;
             my $resp = Net::Curl::Easy.new(:url($url)).download;
-            my $xml = from-xml($resp);
-            %data{$url}<content> = get-content( $xml );
-            %data{$url}<updated> = get-updated( $xml );
+            %data{$url}<content> = get-content( $resp );
+            #    %data{$url}<updated> = get-updated( $resp );
         }
 
         spurt($.cfile, %data.perl);
@@ -26,7 +25,8 @@ role App::Pl6anet::Cache {
     }
 
     # TODO refactor into XML
-    sub get-updated($xml) {
+    sub get-updated($data) {
+        my $xml = from-xml($data);
 
         my $updated;
         if  ($updated = $xml.getElementsByTagName("updated")).so  {
@@ -39,11 +39,14 @@ role App::Pl6anet::Cache {
 
     }
 
-    sub get-content($xml) {
+    sub get-content($data) {
+        my $xml = from-xml($data);
 
         my $content;
-        if  ($content = $xml.getElementsByTagName("content")).so  {
-            $content =  $content.[0].contents;
+        if  ($content = $xml.getElementsByTagName("content").[0]).so  {
+            $content =  $content.contents;
+            #$content =  $content.[0].contents;
+            warn "STM", :$content.gist;
             DEBUG and warn "#1";
         } 
         elsif ($content = $xml.getElementsByTagName("content:encoded")).so {
@@ -56,7 +59,7 @@ role App::Pl6anet::Cache {
         }
 
         $content = $content.Str; 
-        $content = unescape($content);
+        #        $content = unescape($content);
         DEBUG and warn :$content.perl;
         return $content;
     }
