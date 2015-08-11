@@ -15,20 +15,33 @@ role App::Pl6anet::Cache {
         for %data.keys -> $url {
             DEBUG and warn :$url.perl;
             my $resp = Net::Curl::Easy.new(:url($url)).download;
-            %data{$url}<content> = process-xml( $resp );
+            my $xml = from-xml($resp);
+            %data{$url}<content> = get-content( $xml );
+            %data{$url}<updated> = get-updated( $xml );
         }
 
         spurt($.cfile, %data.perl);
+
         return %data;
     }
 
-    sub process-xml($data) {
-        my $xml = from-xml($data);
+    # TODO refactor into XML
+    sub get-updated($xml) {
 
-        DEBUG and warn :$data.perl;
+        my $updated;
+        if  ($updated = $xml.getElementsByTagName("updated")).so  {
+            $updated =  $updated.[0].contents.Str;
+        } 
+
+        DEBUG and warn "STM: ", :$updated.perl;
+
+        return $updated;
+
+    }
+
+    sub get-content($xml) {
 
         my $content;
-
         if  ($content = $xml.getElementsByTagName("content")).so  {
             $content =  $content.[0].contents;
             DEBUG and warn "#1";
